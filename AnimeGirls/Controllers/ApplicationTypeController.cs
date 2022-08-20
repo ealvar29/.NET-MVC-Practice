@@ -27,7 +27,70 @@ namespace AnimeGirls.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ApplicationType type)
         {
-            _db.ApplicationType.Add(type);
+            if (ModelState.IsValid)
+            {
+                _db.ApplicationType.Add(type);
+                _db.SaveChanges();
+                return RedirectToAction("index");
+            }
+            return View(type);
+        }
+
+        //GET Edit
+        public IActionResult Edit(int? id)
+        {
+            if (id is null || id == 0)
+            {
+                return NotFound();
+            }
+            ApplicationType applicationType = _db.ApplicationType.Find(id);
+            if (applicationType is null)
+            {
+                return NotFound();
+            }
+            return View(applicationType);
+        }
+
+        //POST Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ApplicationType applicationType)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.ApplicationType.Update(applicationType);
+                _db.SaveChanges();
+                return RedirectToAction("index");
+            }
+            return View(applicationType);
+        }
+
+        //GET Delete
+        public IActionResult Delete(int? id)
+        {
+            if (id is null || id == 0)
+            {
+                return NotFound();
+            }
+            ApplicationType applicationType = _db.ApplicationType.Find(id);
+            if (applicationType is null)
+            {
+                return NotFound();
+            }
+            return View(applicationType);
+        }
+
+        //POST Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            ApplicationType applicationType = _db.ApplicationType.Find(id);
+            if (applicationType is null)
+            {
+                return NotFound();
+            }
+            _db.ApplicationType.Remove(applicationType);
             _db.SaveChanges();
             return RedirectToAction("index");
         }
