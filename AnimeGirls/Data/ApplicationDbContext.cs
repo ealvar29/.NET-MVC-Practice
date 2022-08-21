@@ -14,5 +14,7 @@ namespace AnimeGirls.Data
 
         public DbSet<ApplicationType> ApplicationType { get; set; }
 
+        public DbSet<Product> Product { get; set; }
+
     }
 }
